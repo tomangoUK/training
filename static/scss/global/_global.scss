@@ -1,0 +1,192 @@
+body {
+	-moz-osx-font-smoothing: grayscale;
+	 -webkit-font-smoothing: antialiased;
+	background: #FFF;
+	margin: 0;
+	color: #999;
+	font: 300 16px /1.6 $font;
+}
+
+.nav-page {
+	padding-top: 68px;
+}
+
+.view {
+	background: #FFF;
+	position: absolute;
+	transition: all .5s cubic-bezier(.55,0,.1,1);
+	min-height: 100vh;
+	width: 100%;
+
+	@include mq($headerSwap) {
+		min-height: auto;
+		display: block;
+		position: static;
+		transition: none;
+	}
+}
+
+
+
+.button {
+	-webkit-tap-highlight-color: transparent;
+	-webkit-appearance: none;
+	transition: 300ms all;
+	text-decoration: none;
+	text-transform: uppercase;
+	text-align: center;
+	letter-spacing: 2px; 
+	border-radius: 40px;
+	line-height: 1;
+	background: #FFF;
+	box-shadow: none;
+	display: block;
+	padding: 13px 20px;
+	outline: none;
+	margin: 0 auto 15px;
+	cursor: pointer;
+	border: 1px solid $red;
+	width: 220px;
+	color: $red;
+	font: 700 11px $heading;
+
+	&--red {
+		background: $red;
+		color: #FFFFFF;
+	}
+
+	&:hover {
+		background: #4A4A4A;
+		border-color: #4A4A4A;
+		color: #FFFFFF;
+	}
+}
+
+
+.main-nav {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	padding: 0.8rem 0 1rem;
+	position: fixed;
+	width: 100vw;
+	left: 0;
+	top: 0;
+	z-index: 100;
+	background: #FFF;
+	transition: all .5s cubic-bezier(.55,0,.1,1);
+
+	@include mq($headerSwap) {
+		display: none;
+	}
+
+	h1 {
+		margin: 0;
+		font-size: 20px;
+		transition: 300ms opacity;
+		transition-delay: 500ms;
+
+		[aria-hidden="true"] {
+			opacity: 0;
+		}
+	}
+	
+	&__contact,
+	&__back {
+		width: 60px;
+		height: 40px;
+		position: relative;
+		text-indent: 200%;
+		overflow: hidden;
+		white-space: nowrap;
+	}
+
+	&__back:before {
+		position: absolute;
+		left: 50%;
+		top: 50%;
+		transform: translate3d(-50%, -50%, 0) rotate(45deg);
+		border-left: 3px solid $red;
+		border-bottom: 3px solid $red;
+		height: 15px;
+		width: 15px;
+		content: '';
+	}
+
+	&__contact {
+		border: none;
+		background: none;
+		outline: none;
+		-webkit-tap-highlight-color: transparent;
+
+		svg {
+			position: absolute;
+			left: 50%;
+			top: 50%;
+			transform: translate3d(-50%, -50%, 0);
+		}
+	}
+}
+
+
+
+@include mq($headerSwap) {
+	#app {
+		display: flex;
+		flex-direction: column;
+		min-height: 100vh;
+	}
+
+	.view {
+		flex: 1;
+	}
+}
+
+
+[role=banner] {
+	display: none;
+
+	@include mq($headerSwap) {
+		display: block;
+		background: #222;
+		padding: 28px 0 23px;
+
+		img {
+			width: 160px;
+			margin: 0 auto;
+		}
+	}
+}
+
+[role=contentinfo] {
+	display: none;
+
+	@include mq($headerSwap) {
+		display: block;
+		background: #F5F5F5;
+		padding: 3.625rem 1rem 5rem;
+		text-align: center;
+		margin-top: 5.625rem;
+
+		.button {
+			background: transparent;
+			margin-bottom: 45px;
+
+			&:hover {
+				background: #333;
+			}
+		}
+	}
+}
+
+
+.standard-page {
+	text-align: center;
+	padding-left: 10px;
+	padding-right: 10px;
+
+	p {
+		max-width: 250px;
+		margin: 0 auto 1rem;
+	}
+}

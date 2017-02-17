@@ -1,19 +1,24 @@
 var express = require('express')
+var compression = require('compression')
 var app = express()
-var routes = require('./src/routes');
-var fs = require('fs');
+var routes = require('./src/routes')
+var fs = require('fs')
 
+app.use(compression())
 app.use('/static', express.static('dist/static'))
+app.get('/service-worker.js', function(req, res) {
+  return res.sendFile(__dirname + '/service-worker.js')
+})
 
 // Split up the routes
-var staticRoutes = [];
-var dynamicRoutes = [];
+var staticRoutes = []
+var dynamicRoutes = []
 routes.map(function(route) {
   // console.log(route.path.indexOf(':'));
   if ( route.path.indexOf(':') !== -1 ) {
-    dynamicRoutes.push(route);
+    dynamicRoutes.push(route)
   } else {
-    staticRoutes.push(route);
+    staticRoutes.push(route)
   }
 })
 
@@ -21,26 +26,30 @@ routes.map(function(route) {
 // Catch dynamic routes and serve the standard index page
 dynamicRoutes.map(function(route) {
   app.get(route.path, function(req, res) {
-    res.sendFile(checkViewExists('/dynamic'));
+    res.sendFile(checkViewExists('/dynamic'))
   })
-});
+})
 
 // Route remaining static routes to their corresponding pages
 app.get('*', function (req, res) {
   
-  var view = checkViewExists('/not-found');
+  var view = checkViewExists('/not-found')
   staticRoutes.map(function(route) {
     if ( route.path === req.url ) {
-      view = checkViewExists( route.path );
+      view = checkViewExists( route.path )
     }
-  });
+  })
 
-  return res.sendFile( view );
+  if ( view.indexOf('not-found') !== -1 ) { 
+    return res.status(404).sendFile( view )
+  } else {
+    return res.sendFile( view )
+  }
 })
 
 function checkViewExists(view) {
-  var path = __dirname + '/dist' + view + '/index.html';
-  return fs.existsSync(path) ? path : __dirname + '/dist/not-found/index.html';
+  var path = __dirname + '/dist' + view + '/index.html'
+  return fs.existsSync(path) ? path : __dirname + '/dist/not-found/index.html'
 }
 
 app.listen(3000, function () {

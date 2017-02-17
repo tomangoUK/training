@@ -4,22 +4,28 @@ module.exports = [
     title: 'Home'
   },
   {
-    path: '/about',
-    title: 'About'
+    path: '/videos',
+    title: 'Video tutorials',
+    template: 'Videos',
+    navTitle: true
   },
   {
-    path: '/dynamic',
-    title: 'Dynamic',
+    path: '/videos/installation-of-releaser',
+    title: 'Installation of releaser',
+    template: 'Video',
+    navTitle: false
   },
   {
-    path: '/about/:id',
-    title: 'Dynamic',
-    template: 'AboutSub'
+    path: '/offline',
+    title: 'Offline',
+    template: 'Offline',
+    navTitle: true
   },
   {
     path: '*',
     title: 'Not Found',
     template: '404',
-    altPath: '/not-found'
+    altPath: '/not-found',
+    navTitle: true
   }
 ]

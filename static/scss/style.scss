@@ -1,3 +1,12 @@
-body {
-	background: #888;
-}
+@import 'global/mixins';
+@import 'global/settings';
+@import 'global/reset';
+@import 'global/global';
+@import 'global/typography';
+
+
+@import 'components/home';
+@import 'components/transitions';
+@import 'components/videos';
+@import 'components/video';
+@import 'components/contact';
