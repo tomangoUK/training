@@ -1,0 +1,36 @@
+pre,
+ol,
+ul,
+form,
+figure,
+hr {
+	padding: 0;
+	margin: 0;
+}
+
+img {
+	max-width: 100%;
+	display: block;
+	height: auto;
+}
+
+ol, ul, li {
+	list-style: none;
+}
+
+article,
+aside,
+figure,
+footer,
+header,
+main,
+nav,
+section {
+	display: block;
+}
+
+*,
+*:before,
+*:after{
+	box-sizing: border-box;
+}
