@@ -19,7 +19,7 @@ module.exports = merge(baseConfig, {
   devtool: SOURCE_MAP ? '#source-map' : false,
   output: {
     // naming output files with hashes for better caching.
-    // dist/index.html will be auto-generated with correct URLs.
+    // dist/app.html will be auto-generated with correct URLs.
     filename: '[name].[chunkhash].js',
     chunkFilename: '[id].[chunkhash].js',
     publicPath: '/static/'
@@ -38,12 +38,12 @@ module.exports = merge(baseConfig, {
     }),
     new webpack.optimize.OccurenceOrderPlugin(),
 
-    // generate dist index.html with correct asset hash for caching.
-    // you can customize output by editing /index.html
+    // generate dist app.html with correct asset hash for caching.
+    // you can customize output by editing /app.html
     // see https://github.com/ampedandwired/html-webpack-plugin
     new HtmlWebpackPlugin({
-      filename: '../index.html',
-      template: 'index.html',
+      filename: '../app.html',
+      template: 'app.html',
       inject: true,
       minify: {
         removeComments: true,
