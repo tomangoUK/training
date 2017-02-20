@@ -148,7 +148,7 @@ document.addEventListener('DOMContentLoaded', function () {
           </aside>
         </transition>
 
-        {{ currentURL }}
+        <div style="position: fixed; z-index: 300; bottom: 0; left: 0; background: #EEE; height: auto; width: 100%;">{{ currentURL }}</div>
 
         <footer role="contentinfo">
           <a v-on:click="toggleContact" class="button">Contact Agon</a>
