@@ -25,6 +25,11 @@
 			opacity: 0.2;
 			transition-delay: 1s;
 		}
+
+		&.loading ~ .loader {
+			opacity: 1;
+			visibility: visible;
+		}
 	}
 }
 
@@ -259,5 +264,40 @@
 		object-fit: contain;
 		object-position: center;
 		font-family: 'object-fit: contain; object-position: center;';
+	}
+}
+
+
+.loader {
+	position: absolute;
+	left: 50%;
+	top: 50%;
+	transform: translate3d(-50%, -50%, 0);
+	width: 40px;
+	height: 40px;
+	z-index: 3;
+	transition: 300ms visibility, 300ms opacity;
+	opacity: 0;
+	visibility: visible;
+
+	&:after {
+		background: url('/static/images/loader.png') center /40px no-repeat;
+		animation: 2s spin infinite linear;
+		position: absolute;
+		content: '';
+		height: 40px;
+		width: 40px;
+		left: 0;
+		top: 0;
+	}
+}
+
+@keyframes spin {
+	0% {
+		transform: rotate(0deg)
+	}
+
+	100% {
+		transform: rotate(360deg)
 	}
 }

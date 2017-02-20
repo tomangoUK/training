@@ -4,7 +4,7 @@
       <div class="video">
         
         <div v-if="content.video" class="video-container" id="video-container">
-          <video id="video" v-on:click="toggleVideoPlayback" data-object-fit="contain" :poster="content.poster"></video>
+          <video id="video" v-on:click="toggleVideoPlayback" data-object-fit="contain" :poster="content.poster" :class="loading"></video>
           <nav class="video-controls">
             <div>
               <button v-on:click="toggleVideoPlayback" type="button" id="play-button">Play</button>
@@ -14,6 +14,7 @@
               <button v-on:click="toggleVideoFullscreen" type="button" id="fullscreen-button">Full-Screen</button>
             </div>
           </nav>
+          <i class="loader"></i>
         </div>
 
         <div class="video__content">
@@ -52,7 +53,8 @@
         seek: '',
         playButton: '',
         muteButton: '',
-        fullscreenButton: ''
+        fullscreenButton: '',
+        loading: 'loading'
       }
     },
 
@@ -154,6 +156,7 @@
         this.getVideo()
         if ( this.video.paused ) {
           this.video.play()
+          this.loading = ''
           if ( this.playButton.classList ) {
             this.video.classList.add('playing')
             this.playButton.classList.add('playing')

@@ -1,7 +1,7 @@
 /* eslint-env worker, serviceworker */
 /* global goog */
 
-const cacheNameStatic = 'training-static-v3'
+const cacheNameStatic = 'training-static-v4'
 const cacheNameVideo = 'training-videos-v2'
 const cacheNameExternal = 'training-external-v1'
 const cacheNamePrefetch = 'training-prefetch-v1'
