@@ -80,7 +80,8 @@ document.addEventListener('DOMContentLoaded', function () {
         contact: false,
         transition: 'slide-left',
         title: '',
-        back: ''
+        back: '',
+        currentURL: window.location.href
       }
     },
 
@@ -146,6 +147,8 @@ document.addEventListener('DOMContentLoaded', function () {
             </div>
           </aside>
         </transition>
+
+        {{ currentURL }}
 
         <footer role="contentinfo">
           <a v-on:click="toggleContact" class="button">Contact Agon</a>
