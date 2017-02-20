@@ -7,7 +7,7 @@ import VueAnalytics from 'vue-analytics'
 
 Vue.use(VueHead, {
   separator: '|',
-  complement: 'Agon Systems'
+  complement: 'Concept Tag'
 })
 Vue.use(VueRouter)
 
@@ -80,8 +80,7 @@ document.addEventListener('DOMContentLoaded', function () {
         contact: false,
         transition: 'slide-left',
         title: '',
-        back: '',
-        currentURL: window.location.href
+        back: ''
       }
     },
 
@@ -147,8 +146,6 @@ document.addEventListener('DOMContentLoaded', function () {
             </div>
           </aside>
         </transition>
-
-        <div style="position: fixed; z-index: 300; bottom: 0; left: 0; background: #EEE; height: auto; width: 100%;">{{ currentURL }}</div>
 
         <footer role="contentinfo">
           <a v-on:click="toggleContact" class="button">Contact Agon</a>

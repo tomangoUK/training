@@ -1,7 +1,9 @@
 /* eslint-env worker, serviceworker */
 /* global goog */
 
-const cacheNameStatic = 'training-static-v1'
+importScripts('/static/js/async-waituntil.js')
+
+const cacheNameStatic = 'training-static-v13'
 const cacheNameVideo = 'training-videos-v2'
 const cacheNameExternal = 'training-external-v1'
 const cacheNamePrefetch = 'training-prefetch-v1'
@@ -29,6 +31,8 @@ self.addEventListener('install', event => {
         '/static/images/logo.png',
         '/static/images/sprites.png',
         '/static/images/tags.jpg',
+        '/static/images/refresh.png',
+        '/static/images/loader.png',
         '/static/images/installation-of-releaser.jpg'
       ])
     })
@@ -36,22 +40,51 @@ self.addEventListener('install', event => {
   )
 })
 
+function clearCaches() {
+  return caches.keys()
+    .then(function (cacheNames) {
+      return Promise.all(
+        cacheNames.map(function (cacheName) {
+          if (currentCacheNames.indexOf(cacheName) === -1) {
+            return caches.delete(cacheName)
+          }
+        })
+      )
+    })
+}
 
 
-self.addEventListener('activate', function (event) {
-  event.waitUntil(
-    caches.keys()
-      .then(function (cacheNames) {
-        return Promise.all(
-          cacheNames.map(function (cacheName) {
-            if (currentCacheNames.indexOf(cacheName) === -1) {
-              return caches.delete(cacheName)
-            }
-          })
-        )
+self.addEventListener('activate', event => {
+  event.waitUntil(clearCaches()
+    .then(function() {
+      clients.matchAll().then(clients => {
+        clients.forEach(client => {
+          send_message_to_client(client)
+        })
       })
+      self.clients.claim()
+    })
   )
 })
+
+
+function send_message_to_client(client){
+  return new Promise(function(resolve, reject){
+    var msg_chan = new MessageChannel()
+
+    msg_chan.port1.onmessage = function(event){
+      if(event.data.error){
+        reject(event.data.error)
+      }else{
+        resolve(event.data)
+      }
+    }
+
+    client.postMessage('updated', [msg_chan.port2])
+  })
+}
+
+
 
 
 
@@ -95,10 +128,19 @@ self.addEventListener('fetch', event => {
 
     event.respondWith(
       caches.match(event.request)
-        .then(function (response) {
+        .then(function (responseFromCache) {
 
-          if (response) {
-            return response
+          if (responseFromCache) {
+            event.waitUntil(
+                fetch(request)
+                .then( responseFromFetch => {
+                  caches.open(cacheNameStatic)
+                  .then( cache => {
+                    cache.put(request, responseFromFetch)
+                  })
+                })
+            )
+            return responseFromCache
           }
 
           var fetchRequest = event.request.clone()

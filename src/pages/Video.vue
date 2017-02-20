@@ -155,8 +155,18 @@
       toggleVideoPlayback: function() {
         this.getVideo()
         if ( this.video.paused ) {
-          this.video.play()
+          var that = this
+          this.video.play().then(function() {
+
+          })
+          .catch(function() {
+            console.log( that )
+            that.video.classList.add('playing')
+            that.playButton.classList.remove('playing')
+          })
+
           this.loading = ''
+
           if ( this.playButton.classList ) {
             this.video.classList.add('playing')
             this.playButton.classList.add('playing')

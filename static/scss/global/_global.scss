@@ -190,3 +190,46 @@ body {
 		margin: 0 auto 1rem;
 	}
 }
+
+
+.update-message {
+	position: fixed;
+	bottom: 0;
+	left: 0;
+	padding: 1rem;
+	background: #FAFAFA;
+	width: 100%;
+	border: none;
+	box-shadow: 0 1px 7px #CCC;
+	-webkit-tap-highlight-color: transparent;
+	text-align: left;
+	font: 400 12px $heading;
+	color: #999;
+	height: 55px;
+	animation: 1s fadeIn forwards;
+	z-index: 400;
+	outline: none;
+
+	small {
+		float: left;
+		color: #999;
+		font-size: 1.25em;
+		padding: 0.125rem 0;
+	}
+
+	img {
+		float: right;
+		width: 25px;
+		height: 25px;
+	}
+}
+
+@keyframes fadeIn {
+	0% {
+		opacity: 0;
+	}
+
+	100% {
+		opacity: 1;
+	}
+}

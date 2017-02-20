@@ -24,6 +24,20 @@
         navigator.serviceWorker.register('/service-worker.js', {
           scope: '/'
         })
+
+        navigator.serviceWorker.addEventListener('message', function(event) {
+          console.log( event )
+          if ( event.data === 'updated' ) {
+            var updateMessage = document.createElement('button')
+            updateMessage.setAttribute('type', 'button')
+            updateMessage.setAttribute('class', 'update-message')
+            updateMessage.innerHTML = '<small>Update available</small> <img src="/static/images/refresh.png">'
+            updateMessage.addEventListener('click', function() {
+              window.location.reload()
+            })
+            document.body.appendChild(updateMessage)
+          }
+        })
       }
     </script>
   </body>
