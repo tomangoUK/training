@@ -1,7 +1,7 @@
 /* eslint-env worker, serviceworker */
 /* global goog */
 
-const cacheNameStatic = 'training-static-v1'
+const cacheNameStatic = 'training-static-v2'
 const cacheNameVideo = 'training-videos-v2'
 const cacheNameExternal = 'training-external-v1'
 const cacheNamePrefetch = 'training-prefetch-v1'
@@ -60,6 +60,10 @@ self.addEventListener('fetch', event => {
   let url = new URL(request.url)
 
   if (request.method !== 'GET') {
+    return
+  }
+
+  if (url.startsWith('chrome-extension://')) {
     return
   }
 

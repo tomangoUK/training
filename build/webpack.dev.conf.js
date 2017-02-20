@@ -23,7 +23,7 @@ module.exports = merge(baseConfig, {
     new webpack.NoErrorsPlugin(),
     // https://github.com/ampedandwired/html-webpack-plugin
     new HtmlWebpackPlugin({
-      filename: 'app.html',
+      filename: 'index.html',
       template: 'app.html',
       inject: true
     })

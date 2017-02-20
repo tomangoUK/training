@@ -2,7 +2,6 @@ var express = require('express')
 var webpack = require('webpack')
 var config = require('./webpack.dev.conf')
 var proxyMiddleware = require('http-proxy-middleware')
-var path = require('path')
 
 var app = express()
 var compiler = webpack(config)
@@ -37,7 +36,7 @@ compiler.plugin('compilation', function (compilation) {
 })
 
 app.get('/service-worker.js', function(req, res) {
-  return res.sendFile(path.resolve(__dirname, '../service-worker.js'))
+  res.json({})
 })
 
 app.get('/reload', function(req, res) {

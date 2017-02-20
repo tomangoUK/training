@@ -42,7 +42,7 @@ module.exports = merge(baseConfig, {
     // you can customize output by editing /app.html
     // see https://github.com/ampedandwired/html-webpack-plugin
     new HtmlWebpackPlugin({
-      filename: '../app.html',
+      filename: '../index.html',
       template: 'app.html',
       inject: true,
       minify: {

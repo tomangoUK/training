@@ -4,7 +4,7 @@
       <div class="video">
         
         <div v-if="content.video" class="video-container" id="video-container">
-          <video id="video" v-on:click="toggleVideoPlayback" data-object-fit="contain" :poster="content.poster" :src="content.video"></video>
+          <video id="video" v-on:click="toggleVideoPlayback" data-object-fit="contain" :poster="content.poster"></video>
           <nav class="video-controls">
             <div>
               <button v-on:click="toggleVideoPlayback" type="button" id="play-button">Play</button>
@@ -56,6 +56,41 @@
       }
     },
 
+    mounted: function() {
+
+      var title = this.title
+      this.getVideo()
+      const videoRequest = fetch(this.content.video).then(response => response.blob())
+      videoRequest.then(blob => {
+        const request = indexedDB.open('trainingVideos', 1)
+
+        request.onsuccess = event => {
+          const db = event.target.result
+
+          const transaction = db.transaction(['videos'])
+          const objectStore = transaction.objectStore('videos')
+
+          const test = objectStore.get(title)
+
+          test.onsuccess = () => {
+            this.video.src = window.URL.createObjectURL(test.result.blob)
+            this.toggleVideoPlayback()
+          }
+        }
+
+        request.onupgradeneeded = event => {
+          const db = event.target.result
+          const objectStore = db.createObjectStore('videos', { keyPath: 'name' })
+
+          objectStore.transaction.oncomplete = () => {
+            const videoObjectStore = db.transaction('videos', 'readwrite').objectStore('videos')
+            videoObjectStore.add({name: title, blob: blob})
+          }
+        }
+      })
+
+    },
+
     computed: {
 
       remainingTime: function() {
@@ -86,11 +121,6 @@
 
     components: {
       MainLayout
-    },
-
-    mounted: function() {
-      this.getVideo()
-      this.toggleVideoPlayback()
     },
 
     methods: {
