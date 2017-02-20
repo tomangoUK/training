@@ -35,7 +35,7 @@ app.get('*', function (req, res) {
   
   var view = checkViewExists('/not-found')
   staticRoutes.map(function(route) {
-    if ( route.path === req.url ) {
+    if ( route.path === req._parsedUrl.pathname ) {
       view = checkViewExists( route.path )
     }
   })
@@ -48,6 +48,9 @@ app.get('*', function (req, res) {
 })
 
 function checkViewExists(view) {
+  if ( view === '/' ) {
+    view = ''
+  }
   var path = __dirname + '/dist' + view + '/index.html'
   return fs.existsSync(path) ? path : __dirname + '/dist/not-found/index.html'
 }
