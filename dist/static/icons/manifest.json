@@ -1,6 +1,6 @@
 {
     "name": "conceptag",
-    "start_url": "https://training.concepttag.com/?utm_source=web_app_manifest",
+    "start_url": "../../?utm_source=web_app_manifest",
     "icons": [
         {
             "src": "/static/icons/android-chrome-192x192.png",
