@@ -5,6 +5,9 @@ body {
 	margin: 0;
 	color: #999;
 	font: 300 16px /1.6 $font;
+	
+	-webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+	-webkit-text-size-adjust: 100%;
 }
 
 .nav-page {

@@ -28,7 +28,11 @@
 </template>
 
 <script>
+
+
   import 'whatwg-fetch'
+
+
   import MainLayout from '../components/MainLayout.vue'
   const content = {
     'installation-of-releaser': {
@@ -76,8 +80,10 @@
           const test = objectStore.get(title)
 
           test.onsuccess = () => {
-            this.video.src = window.URL.createObjectURL(test.result.blob)
-            this.toggleVideoPlayback()
+            if ( test.result ) {
+              this.video.src = window.URL.createObjectURL(test.result.blob)
+              this.toggleVideoPlayback()
+            }
           }
         }
 
