@@ -186,8 +186,13 @@
           this.loading = ''
 
         } else {
-          if ( this.video ) {
-            this.video.pause()
+          if ( this.video !== undefined ) {
+            try {
+              this.video.pause() 
+            }
+            catch (event) {
+              console.log( event )
+            }
           }
           if ( this.playButton.classList ) {
             this.video.classList.remove('playing')
