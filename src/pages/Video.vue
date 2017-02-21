@@ -83,6 +83,9 @@
             if ( test.result ) {
               this.video.src = window.URL.createObjectURL(test.result.blob)
               this.toggleVideoPlayback()
+            } else {
+              this.video.src = window.URL.createObjectURL(blob)
+              this.toggleVideoPlayback()
             }
           }
         }
