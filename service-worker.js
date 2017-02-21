@@ -3,7 +3,7 @@
 
 importScripts('/static/js/async-waituntil.js')
 
-const cacheNameStatic = 'training-static-v14'
+const cacheNameStatic = 'training-static-v15'
 const cacheNameVideo = 'training-videos-v2'
 const cacheNameExternal = 'training-external-v1'
 const cacheNamePrefetch = 'training-prefetch-v1'
@@ -24,6 +24,7 @@ self.addEventListener('install', event => {
     .then(function (cache) {
       return cache.addAll([
         '/',
+        '/?utm_source=web_app_manifest',
         '/offline',
         '/videos',
         '/videos/installation-of-releaser',
