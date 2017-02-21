@@ -175,8 +175,8 @@
             that.playButton.classList.remove('playing')
           } else {
             playPromise.then(function() {
-              this.video.classList.add('playing')
-              this.playButton.classList.add('playing')
+              that.video.classList.add('playing')
+              that.playButton.classList.add('playing')
             }).catch(function() {
               that.video.classList.remove('playing')
               that.playButton.classList.remove('playing')
