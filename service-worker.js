@@ -3,7 +3,7 @@
 
 importScripts('/static/js/async-waituntil.js')
 
-const cacheNameStatic = 'training-static-v26'
+const cacheNameStatic = 'training-static-v4'
 const cacheNameVideo = 'training-videos-v2'
 const cacheNameExternal = 'training-external-v1'
 const cacheNamePrefetch = 'training-prefetch-v1'
@@ -127,7 +127,6 @@ self.addEventListener('fetch', event => {
             status: 206,
             statusText: 'Partial Content',
             headers: [
-              // ['Content-Type', 'video/webm'],
               ['Content-Range', 'bytes ' + pos + '-' +
                 (ab.byteLength - 1) + '/' + ab.byteLength]]
           })
@@ -138,9 +137,10 @@ self.addEventListener('fetch', event => {
       caches.match(event.request)
         .then(function (responseFromCache) {
 
-          if (responseFromCache) {
+          if (responseFromCache && request.url.indexOf('.mp4') === -1) {
+            let requestUrl = request.url.indexOf('?') === -1 ? `${request.url}?${Math.random()}` : `${request.url}&${Math.random()}` 
             event.waitUntil(
-                fetch(request)
+                fetch(requestUrl)
                 .then( responseFromFetch => {
                   caches.open(cacheNameStatic)
                   .then( cache => {

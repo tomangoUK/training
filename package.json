@@ -6,9 +6,13 @@
   "private": true,
   "scripts": {
     "dev": "npm run devWebpack & npm run watchSCSS",
-    "build": "node build/build.js",
-    "watchSCSS": "gulp",
-    "devWebpack": "node build/dev-server.js"
+    "build": "npm run buildSCSS && npm run prodWebpack",
+    "static": "npm run buildSCSS && npm run buildStatic",
+    "prodWebpack": "node build/build.js",
+    "devWebpack": "node build/dev-server.js",
+    "buildStatic": "node build/static.js",
+    "buildSCSS": "gulp css",
+    "watchSCSS": "gulp"
   },
   "dependencies": {
     "compression": "^1.6.2",
