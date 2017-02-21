@@ -224,9 +224,11 @@ body {
 	}
 
 	@include mq(35em) {
+		box-shadow: 0 2px 4px #DEDEDE;
 		width: 250px;
 		bottom: 1rem;
 		right: 1rem;
+		left: auto;
 	}
 }
 
