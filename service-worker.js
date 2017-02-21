@@ -3,7 +3,7 @@
 
 importScripts('/static/js/async-waituntil.js')
 
-const cacheNameStatic = 'training-static-v18'
+const cacheNameStatic = 'training-static-v24'
 const cacheNameVideo = 'training-videos-v2'
 const cacheNameExternal = 'training-external-v1'
 const cacheNamePrefetch = 'training-prefetch-v1'
@@ -20,24 +20,31 @@ goog.offlineGoogleAnalytics.initialize()
 
 
 self.addEventListener('install', event => {
-  event.waitUntil(caches.open(cacheNameStatic)
-    .then(function (cache) {
-      return cache.addAll([
-        '/',
-        '/?utm_source=web_app_manifest',
-        '/offline',
-        '/videos',
-        '/videos/installation-of-releaser',
-        '/static/css/style.css',
-        '/static/images/logo.png',
-        '/static/images/sprites.png',
-        '/static/images/tags.jpg',
-        '/static/images/refresh.png',
-        '/static/images/loader.png',
-        '/static/images/installation-of-releaser.jpg'
-      ])
-    })
-    .then( () => self.skipWaiting() )
+  event.waitUntil(
+    caches.open(cacheNameStatic)
+      .then(cache => Promise.all(
+        [
+          '/',
+          '/?utm_source=web_app_manifest',
+          '/offline',
+          '/videos',
+          '/videos/installation-of-releaser',
+          '/static/css/style.css',
+          '/static/images/logo.png',
+          '/static/images/sprites.png',
+          '/static/images/tags.jpg',
+          '/static/images/refresh.png',
+          '/static/images/loader.png',
+          '/static/images/installation-of-releaser.jpg'
+        ].map(url => {
+          let requestUrl = url.indexOf('?') === -1 ? `${url}?${Math.random()}` : `${url}&${Math.random()}` 
+          return fetch(requestUrl).then(response => {
+            if (!response.ok) throw Error('Not ok')
+            return cache.put(url, response)
+          })
+        })
+      ))
+      .then( () => self.skipWaiting() )
   )
 })
 
