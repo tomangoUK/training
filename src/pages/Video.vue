@@ -28,9 +28,12 @@
 </template>
 
 <script>
-
-
   import 'whatwg-fetch'
+  import Promise from 'promise-polyfill'
+
+  if (!window.Promise) {
+    window.Promise = Promise
+  }
 
 
   import MainLayout from '../components/MainLayout.vue'
@@ -166,24 +169,28 @@
         this.getVideo()
         if ( this.video.paused ) {
           var that = this
-          this.video.play().then(function() {
-
-          })
-          .catch(function() {
-            that.video.classList.add('playing')
+          var playPromise = this.video.play()
+          if ( ! playPromise ) {
+            that.video.classList.remove('playing')
             that.playButton.classList.remove('playing')
-          })
+          } else {
+            playPromise.then(function() {
+              this.video.classList.add('playing')
+              this.playButton.classList.add('playing')
+            }).catch(function() {
+              that.video.classList.remove('playing')
+              that.playButton.classList.remove('playing')
+            })
+          }
 
           this.loading = ''
 
-          if ( this.playButton.classList ) {
-            this.video.classList.add('playing')
-            this.playButton.classList.add('playing')
-          }
         } else {
-          this.video.pause()
+          if ( this.video ) {
+            this.video.pause()
+          }
           if ( this.playButton.classList ) {
-            this.video.classList.add('playing')
+            this.video.classList.remove('playing')
             this.playButton.classList.remove('playing')
           }
         }
