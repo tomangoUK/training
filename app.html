@@ -26,7 +26,6 @@
         })
 
         navigator.serviceWorker.addEventListener('message', function(event) {
-          console.log( event )
           if ( event.data === 'updated' ) {
             var updateMessage = document.createElement('button')
             updateMessage.setAttribute('type', 'button')
