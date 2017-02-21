@@ -160,7 +160,6 @@
 
           })
           .catch(function() {
-            console.log( that )
             that.video.classList.add('playing')
             that.playButton.classList.remove('playing')
           })

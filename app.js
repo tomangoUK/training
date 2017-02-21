@@ -14,7 +14,6 @@ app.get('/service-worker.js', function(req, res) {
 var staticRoutes = []
 var dynamicRoutes = []
 routes.map(function(route) {
-  // console.log(route.path.indexOf(':'));
   if ( route.path.indexOf(':') !== -1 ) {
     dynamicRoutes.push(route)
   } else {

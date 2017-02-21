@@ -67,7 +67,6 @@ function onError( err ) {
 
 
 gulp.task('reloadWebpack', function(cb) {
-	console.log( 'a' );
 	http.get('http://localhost:8080/reload');
 	cb();
 });

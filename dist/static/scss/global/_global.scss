@@ -222,6 +222,12 @@ body {
 		width: 25px;
 		height: 25px;
 	}
+
+	@include mq(35em) {
+		width: 250px;
+		bottom: 1rem;
+		right: 1rem;
+	}
 }
 
 @keyframes fadeIn {
