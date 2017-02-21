@@ -28,6 +28,7 @@
 </template>
 
 <script>
+  import 'whatwg-fetch'
   import MainLayout from '../components/MainLayout.vue'
   const content = {
     'installation-of-releaser': {
