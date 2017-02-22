@@ -14,7 +14,8 @@
               <button v-on:click="toggleVideoFullscreen" type="button" id="fullscreen-button">Full-Screen</button>
             </div>
           </nav>
-          <i class="loader"></i><i class="pauser"></i>
+          <i class="loader"></i>
+          <i class="pauser" v-on:click="toggleVideoPlayback"></i>
         </div>
 
         <div class="video__content">
