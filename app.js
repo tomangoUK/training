@@ -5,6 +5,14 @@ var routes = require('./src/routes')
 var fs = require('fs')
 
 app.use(compression())
+
+app.use(function (req, res, next) {
+  if (req.url.match(/^\/static\/(css|js|images|img|font)\/.+/)) {
+    res.setHeader('Cache-Control', 'public, max-age=3600')
+  }
+  next()
+})
+
 app.use('/static', express.static('dist/static'))
 app.get('/service-worker.js', function(req, res) {
   return res.sendFile(__dirname + '/service-worker.js')
