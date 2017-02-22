@@ -62,12 +62,15 @@ function clearCaches() {
 self.addEventListener('activate', event => {
   event.waitUntil(clearCaches()
     .then(function() {
-      clients.matchAll().then(clients => {
-        clients.forEach(client => {
-          send_message_to_client(client)
+      event.waitUntil(
+        clients.matchAll().then(clients => {
+          clients.forEach(client => {
+            send_message_to_client(client)
+          })
+        }).then(function() {
+          self.clients.claim()
         })
-      })
-      self.clients.claim()
+      )
     })
   )
 })
