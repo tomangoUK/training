@@ -3,7 +3,7 @@
 
 importScripts('/static/js/async-waituntil.js')
 
-const cacheNameStatic = 'training-static-v13'
+const cacheNameStatic = 'training-static-v14'
 const cacheNameVideo = 'training-videos-v2'
 const cacheNameExternal = 'training-external-v1'
 const cacheNamePrefetch = 'training-prefetch-v1'
@@ -50,13 +50,10 @@ self.addEventListener('install', event => {
 
 function clearCaches() {
   return caches.keys()
-    .then(function (cacheNames) {
-      return Promise.all(
-        cacheNames.map(function (cacheName) {
-          if (currentCacheNames.indexOf(cacheName) === -1) {
-            return caches.delete(cacheName)
-          }
-        })
+    .then( keys => {
+      return Promise.all(keys
+        .filter(key => currentCacheNames.indexOf(key) === -1)
+        .map(key => caches.delete(key))
       )
     })
 }
