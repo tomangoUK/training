@@ -3,7 +3,7 @@
 
 importScripts('/static/js/async-waituntil.js')
 
-const cacheNameStatic = 'training-static-v14'
+const cacheNameStatic = 'training-static-v15'
 const cacheNameVideo = 'training-videos-v2'
 const cacheNameExternal = 'training-external-v1'
 const cacheNamePrefetch = 'training-prefetch-v1'
@@ -62,6 +62,7 @@ function clearCaches() {
 self.addEventListener('activate', event => {
   event.waitUntil(clearCaches()
     .then(function() {
+      self.clients.claim()
       event.waitUntil(
         clients.matchAll().then(clients => {
           clients.forEach(client => {
