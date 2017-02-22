@@ -3,7 +3,7 @@
 
 importScripts('/static/js/async-waituntil.js')
 
-const cacheNameStatic = 'training-static-v16'
+const cacheNameStatic = 'training-static-v17'
 const cacheNameVideo = 'training-videos-v2'
 const cacheNameExternal = 'training-external-v1'
 const cacheNamePrefetch = 'training-prefetch-v1'
@@ -35,6 +35,7 @@ self.addEventListener('install', event => {
           '/static/images/tags.jpg',
           '/static/images/refresh.png',
           '/static/images/loader.png',
+          '/static/images/pauser.png',
           '/static/images/installation-of-releaser.jpg'
         ].map(url => {
           let requestUrl = url.indexOf('?') === -1 ? `${url}?${Math.random()}` : `${url}&${Math.random()}` 

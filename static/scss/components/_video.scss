@@ -30,6 +30,11 @@
 			opacity: 1;
 			visibility: visible;
 		}
+
+		&.pausing ~ .pauser {
+			opacity: 1;
+			visibility: visible;
+		}
 	}
 }
 
@@ -268,6 +273,7 @@
 }
 
 
+.pauser,
 .loader {
 	position: absolute;
 	left: 50%;
@@ -290,6 +296,11 @@
 		left: 0;
 		top: 0;
 	}
+}
+
+.pauser:after {
+	animation: none;
+	background: url('/static/images/pauser.png') center /40px no-repeat;
 }
 
 @keyframes spin {

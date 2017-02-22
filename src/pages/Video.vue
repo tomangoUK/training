@@ -14,7 +14,7 @@
               <button v-on:click="toggleVideoFullscreen" type="button" id="fullscreen-button">Full-Screen</button>
             </div>
           </nav>
-          <i class="loader"></i>
+          <i class="loader"></i><i class="pauser"></i>
         </div>
 
         <div class="video__content">
@@ -177,9 +177,11 @@
             playPromise.then(function() {
               that.video.classList.add('playing')
               that.playButton.classList.add('playing')
+              that.video.classList.remove('pausing')
             }).catch(function() {
               that.video.classList.remove('playing')
               that.playButton.classList.remove('playing')
+              that.video.classList.add('pausing')
             })
           }
 
