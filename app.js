@@ -38,6 +38,7 @@ dynamicRoutes.map(function(route) {
   })
 })
 
+
 // Route remaining static routes to their corresponding pages
 app.get('*', function (req, res) {
   var view = checkViewExists('/not-found')
