@@ -6,7 +6,6 @@ var fs = require('fs')
 
 app.use(compression())
 
-
 app.use('/static', express.static('dist/static', {
   setHeaders: function(res, path) {
     if (path.match(/\/static\/(css|js|images|img|font)\/.+/)) {
@@ -40,7 +39,6 @@ dynamicRoutes.map(function(route) {
 
 // Route remaining static routes to their corresponding pages
 app.get('*', function (req, res) {
-  
   var view = checkViewExists('/not-found')
   staticRoutes.map(function(route) {
     if ( route.path === req._parsedUrl.pathname ) {
