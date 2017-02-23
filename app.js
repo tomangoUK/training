@@ -18,6 +18,7 @@ app.get('/service-worker.js', function(req, res) {
   return res.sendFile(__dirname + '/service-worker.js')
 })
 
+
 // Split up the routes
 var staticRoutes = []
 var dynamicRoutes = []
