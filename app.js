@@ -6,18 +6,17 @@ var fs = require('fs')
 
 app.use(compression())
 
-app.use('/static', express.static('dist/static', {
-  setHeaders: function(res, path) {
-    if (path.match(/\/static\/(css|js|images|img|font)\/.+/)) {
-      res.setHeader('Cache-Control', 'public, max-age=3600')
-    }
+app.use(function (req, res, next) {
+  if (req.url.match(/^\/static\/(css|js|images|img|font)\/.+/)) {
+    res.setHeader('Cache-Control', 'public, max-age=3600')
   }
-}))
+  next()
+})
 
+app.use('/static', express.static(( process.env.NODE_ENV === 'production' ? 'public/' : '' ) + 'dist/static'))
 app.get('/service-worker.js', function(req, res) {
   return res.sendFile(__dirname + '/service-worker.js')
 })
-
 
 // Split up the routes
 var staticRoutes = []
@@ -38,9 +37,9 @@ dynamicRoutes.map(function(route) {
   })
 })
 
-
 // Route remaining static routes to their corresponding pages
 app.get('*', function (req, res) {
+  
   var view = checkViewExists('/not-found')
   staticRoutes.map(function(route) {
     if ( route.path === req._parsedUrl.pathname ) {
