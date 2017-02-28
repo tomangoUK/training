@@ -3,10 +3,32 @@
 
 importScripts('/static/js/async-waituntil.js')
 
-const cacheNameStatic = 'training-static-v18'
-const cacheNameVideo = 'training-videos-v2'
+const cacheNameStatic = 'training-static-v1'
+const cacheNameVideo = 'training-videos-v1'
 const cacheNameExternal = 'training-external-v1'
-const cacheNamePrefetch = 'training-prefetch-v1'
+const videosMp4 = [
+  '/static/videos/installing-the-releaser.mp4',
+  '/static/videos/releasing-a-tag.mp4',
+  '/static/videos/replacing-the-releaser.mp4',
+  '/static/videos/troubleshooting.mp4',
+  '/static/videos/where-to-place-a-tag.mp4'
+]
+
+const videosWebm = [
+  '/static/videos/installing-the-releaser.webm',
+  '/static/videos/releasing-a-tag.webm',
+  '/static/videos/replacing-the-releaser.webm',
+  '/static/videos/troubleshooting.webm',
+  '/static/videos/where-to-place-a-tag.webm'
+]
+
+const videoPosters = [
+  '/static/images/installation-of-releaser-poster.jpg',
+  '/static/images/releasing-a-tag-poster.jpg',
+  '/static/images/replacing-a-releaser-poster.jpg',
+  '/static/images/troubleshooting-poster.jpg',
+  '/static/images/where-to-place-a-tag-poster.jpg'
+]
 
 const currentCacheNames = [
   cacheNameStatic,
@@ -28,12 +50,13 @@ self.addEventListener('install', event => {
           '/?utm_source=web_app_manifest',
           '/offline',
           '/videos',
-          '/videos/installation-of-releaser',
+          '/videos/installing-the-releaser',
           '/static/css/style.css',
           '/static/images/logo.png',
           '/static/images/sprites.png',
           '/static/images/tags.jpg',
           '/static/images/refresh.png',
+          '/static/images/download.png',
           '/static/images/loader.png',
           '/static/images/pauser.png',
           '/static/images/installation-of-releaser.jpg'
@@ -48,6 +71,7 @@ self.addEventListener('install', event => {
       .then( () => self.skipWaiting() )
   )
 })
+
 
 function clearCaches() {
   return caches.keys()
@@ -64,25 +88,25 @@ self.addEventListener('activate', event => {
   event.waitUntil(clearCaches()
     .then(function() {
       self.clients.claim()
-      event.waitUntil(
-        clients.matchAll().then(clients => {
-          clients.forEach(client => {
-            send_message_to_client(client)
-          })
-        }).then(function() {
-          self.clients.claim()
-        })
-      )
     })
   )
 })
 
 
-function send_message_to_client(client){
+function send_message(message) {
+  return clients.matchAll().then(clients => {
+    clients.forEach(client => {
+      send_message_to_client(client, message)
+    })
+  }) 
+}
+
+
+function send_message_to_client(client, message) {
   return new Promise(function(resolve, reject){
     var msg_chan = new MessageChannel()
 
-    msg_chan.port1.onmessage = function(event){
+    msg_chan.port1.onmessage = function(event) {
       if(event.data.error){
         reject(event.data.error)
       }else{
@@ -90,12 +114,54 @@ function send_message_to_client(client){
       }
     }
 
-    client.postMessage('updated', [msg_chan.port2])
+    client.postMessage(message, [msg_chan.port2])
   })
 }
 
 
+self.addEventListener('message', event => {
+  if (event.data.command == 'checkForVideos') {
 
+    caches.open(cacheNameVideo)
+      .then(function(cache) {
+        cache.keys().then(function(keys) {
+          send_message('missing-' + (videosMp4.length - keys.length))
+        })
+      })
+
+  } else if (event.data.command == 'fetchVideos' || event.data.command == 'fetchVideosWebm') {
+
+    caches.open(cacheNameVideo)
+      .then(function(cache) {
+        cache.keys().then(function(keys) {
+          if ( keys.length != videosMp4.length ) {
+            let videos = event.data.command == 'fetchVideos' ? videosMp4 : videosWebm
+            videos.map(url => {
+              let requestUrl = url.indexOf('?') === -1 ? `${url}?${Math.random()}` : `${url}&${Math.random()}` 
+              return fetch(requestUrl).then(response => {
+                if (!response.ok) throw Error('Not ok')
+                return cache.put(url, response)
+              })
+            })
+          }
+        })
+      })
+
+    caches.open(cacheNameStatic)
+      .then(function(cache) {
+        cache.keys().then(function() {
+          videoPosters.map(url => {
+            let requestUrl = url.indexOf('?') === -1 ? `${url}?${Math.random()}` : `${url}&${Math.random()}` 
+            return fetch(requestUrl).then(response => {
+              if (!response.ok) throw Error('Not ok')
+              return cache.put(url, response)
+            })
+          })
+        })
+      })
+
+  }
+})
 
 
 self.addEventListener('fetch', event => {
@@ -107,11 +173,10 @@ self.addEventListener('fetch', event => {
   }
 
   if (event.request.headers.get('range')) {
-    var pos =
-    Number(/^bytes\=(\d+)\-$/g.exec(event.request.headers.get('range'))[1])
+    var pos = Number(/^bytes\=(\d+)\-$/g.exec(event.request.headers.get('range'))[1])
 
     event.respondWith(
-      caches.open(cacheNamePrefetch)
+      caches.open(cacheNameVideo)
       .then(function(cache) {
         return cache.match(event.request.url)
       }).then(function(res) {
@@ -133,13 +198,14 @@ self.addEventListener('fetch', event => {
                 (ab.byteLength - 1) + '/' + ab.byteLength]]
           })
       }))
+
   } else {
 
     event.respondWith(
       caches.match(event.request)
         .then(function (responseFromCache) {
 
-          if (responseFromCache && request.url.indexOf('.mp4') === -1) {
+          if (responseFromCache && (request.url.indexOf('.mp4') === -1 || request.url.indexOf('.webm') === -1) ) {
             let requestUrl = request.url.indexOf('?') === -1 ? `${request.url}?${Math.random()}` : `${request.url}&${Math.random()}` 
             event.waitUntil(
                 fetch(requestUrl)
@@ -160,7 +226,7 @@ self.addEventListener('fetch', event => {
 
               var cacheName = false
               if (response.type === 'basic' && response.status === 200) {
-                if (url.href.indexOf('.mp4') !== -1) {
+                if (url.href.indexOf('.mp4') !== -1 || url.href.indexOf('.webm') !== -1) {
                   cacheName = cacheNameVideo
                 } else {
                   cacheName = cacheNameStatic

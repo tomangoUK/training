@@ -4,7 +4,7 @@
       <div class="video">
         
         <div v-if="content.video" class="video-container" id="video-container">
-          <video id="video" v-on:click="toggleVideoPlayback" data-object-fit="contain" :poster="content.poster" :class="loading"></video>
+          <video id="video" v-on:click="toggleVideoPlayback" data-object-fit="contain" :poster="content.poster" :class="loading" :src="content.video"></video>
           <nav class="video-controls">
             <div>
               <button v-on:click="toggleVideoPlayback" type="button" id="play-button">Play</button>
@@ -36,13 +36,50 @@
     window.Promise = Promise
   }
 
+  var format = 'mp4'
+  var testEl = document.createElement( 'video' )
+  if ( testEl.canPlayType ) {
+    format = testEl.canPlayType( 'video/webm; codecs="vp8, vorbis"' ) ? 'webm' : 'mp4'
+  }
 
   import MainLayout from '../components/MainLayout.vue'
   const content = {
-    'installation-of-releaser': {
-      'video' : '/static/videos/installation-of-releaser.mp4',
+    'installing-the-releaser': {
+      'video' : '/static/videos/installing-the-releaser.' + format,
       'poster': '/static/images/installation-of-releaser-poster.jpg',
-      'length' : 60,
+      'length' : 58,
+      'content': [
+        'Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore.'
+      ]
+    },
+    'releasing-a-tag': {
+      'video' : '/static/videos/releasing-a-tag.' + format,
+      'poster': '/static/images/releasing-a-tag-poster.jpg',
+      'length' : 40,
+      'content': [
+        'Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore.'
+      ]
+    },
+    'replacing-the-releaser': {
+      'video' : '/static/videos/replacing-the-releaser.' + format,
+      'poster': '/static/images/replacing-a-releaser-poster.jpg',
+      'length' : 65,
+      'content': [
+        'Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore.'
+      ]
+    },
+    'troubleshooting': {
+      'video' : '/static/videos/troubleshooting.' + format,
+      'poster': '/static/images/troubleshooting-poster.jpg',
+      'length' : 48,
+      'content': [
+        'Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore.'
+      ]
+    },
+    'where-to-place-a-tag': {
+      'video' : '/static/videos/where-to-place-a-tag.' + format,
+      'poster': '/static/images/where-to-place-a-tag-poster.jpg',
+      'length' : 61,
       'content': [
         'Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore.'
       ]
@@ -69,41 +106,43 @@
 
     mounted: function() {
 
-      var title = this.title
       this.getVideo()
-      const videoRequest = fetch(this.content.video).then(response => response.blob())
-      videoRequest.then(blob => {
-        const request = indexedDB.open('trainingVideos', 1)
+      this.toggleVideoPlayback()
 
-        request.onsuccess = event => {
-          const db = event.target.result
+      // var title = this.title
+      // const videoRequest = fetch(this.content.video).then(response => response.blob())
+      // videoRequest.then(blob => {
+      //   const request = indexedDB.open('trainingVideos', 1)
 
-          const transaction = db.transaction(['videos'])
-          const objectStore = transaction.objectStore('videos')
+      //   request.onsuccess = event => {
+      //     const db = event.target.result
 
-          const test = objectStore.get(title)
+      //     const transaction = db.transaction(['videos'])
+      //     const objectStore = transaction.objectStore('videos')
 
-          test.onsuccess = () => {
-            if ( test.result ) {
-              this.video.src = window.URL.createObjectURL(test.result.blob)
-              this.toggleVideoPlayback()
-            } else {
-              this.video.src = window.URL.createObjectURL(blob)
-              this.toggleVideoPlayback()
-            }
-          }
-        }
+      //     const test = objectStore.get(title)
 
-        request.onupgradeneeded = event => {
-          const db = event.target.result
-          const objectStore = db.createObjectStore('videos', { keyPath: 'name' })
+      //     test.onsuccess = () => {
+      //       if ( test.result ) {
+      //         this.video.src = window.URL.createObjectURL(test.result.blob)
+      //         this.toggleVideoPlayback()
+      //       } else {
+      //         this.video.src = window.URL.createObjectURL(blob)
+      //         this.toggleVideoPlayback()
+      //       }
+      //     }
+      //   }
 
-          objectStore.transaction.oncomplete = () => {
-            const videoObjectStore = db.transaction('videos', 'readwrite').objectStore('videos')
-            videoObjectStore.add({name: title, blob: blob})
-          }
-        }
-      })
+      //   request.onupgradeneeded = event => {
+      //     const db = event.target.result
+      //     const objectStore = db.createObjectStore('videos', { keyPath: 'name' })
+
+      //     objectStore.transaction.oncomplete = () => {
+      //       const videoObjectStore = db.transaction('videos', 'readwrite').objectStore('videos')
+      //       videoObjectStore.add({name: title, blob: blob})
+      //     }
+      //   }
+      // })
 
     },
 
@@ -174,19 +213,20 @@
           if ( ! playPromise ) {
             that.video.classList.remove('playing')
             that.playButton.classList.remove('playing')
+            that.loading = ''
           } else {
             playPromise.then(function() {
               that.video.classList.add('playing')
               that.playButton.classList.add('playing')
               that.video.classList.remove('pausing')
+              that.loading = ''
             }).catch(function() {
               that.video.classList.remove('playing')
               that.playButton.classList.remove('playing')
               that.video.classList.add('pausing')
+              that.loading = ''
             })
           }
-
-          this.loading = ''
 
         } else {
           if ( this.video !== undefined ) {
@@ -194,7 +234,7 @@
               this.video.pause() 
             }
             catch (event) {
-              console.log( event )
+              console.log( '' )
             }
           }
           if ( this.playButton.classList ) {

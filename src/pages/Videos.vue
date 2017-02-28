@@ -12,6 +12,7 @@
           </router-link>
         </article>
       </div>
+      <button v-if="showDownload" class="button--download button" :class="hideDownload" v-on:click="saveVideos">Save Videos Offline</button>
     </main-layout>
   </div>
 </template>
@@ -20,28 +21,34 @@
   import MainLayout from '../components/MainLayout.vue'
   const videos = [
     {
-      'title' : 'Installation of releaser',
-      'path' : '/videos/installation-of-releaser',
-      'image' : '/static/images/installation-of-releaser.jpg',
-      'time': '01:24'
+      'title' : 'Where to place a tag',
+      'path' : '/videos/where-to-place-a-tag',
+      'image' : '/static/images/where-to-place-a-tag.jpg',
+      'time': '01:01'
     },
     {
-      'title' : 'Installation of releaser',
-      'path' : '/videos/installation-of-releaser',
-      'image' : '/static/images/installation-of-releaser.jpg',
-      'time': '01:24'
+      'title' : 'Releasing a tag',
+      'path' : '/videos/releasing-a-tag',
+      'image' : '/static/images/releasing-a-tag.jpg',
+      'time': '00:40'
     },
     {
-      'title' : 'Installation of releaser',
-      'path' : '/videos/installation-of-releaser',
+      'title' : 'Installing the releaser',
+      'path' : '/videos/installing-the-releaser',
       'image' : '/static/images/installation-of-releaser.jpg',
-      'time': '01:24'
+      'time': '00:58'
     },
     {
-      'title' : 'Installation of releaser',
-      'path' : '/videos/installation-of-releaser',
-      'image' : '/static/images/installation-of-releaser.jpg',
-      'time': '01:24'
+      'title' : 'Troubleshooting',
+      'path' : '/videos/troubleshooting',
+      'image' : '/static/images/troubleshooting.jpg',
+      'time': '00:48'
+    },
+    {
+      'title' : 'Replacing the releaser',
+      'path' : '/videos/replacing-the-releaser',
+      'image' : '/static/images/replacing-a-releaser.jpg',
+      'time': '01:05'
     }
   ]
 
@@ -52,7 +59,9 @@
         title: 'Video tutorials',
         navTitle: 'Video tutorials',
         back: '/',
-        videos: videos
+        videos: videos,
+        showDownload: navigator && navigator.serviceWorker && localStorage && ! localStorage.getItem('downloadedVideos') && ! localStorage.getItem('downloadingVideos'),
+        hideDownload: ''
       }
     },
 
@@ -68,8 +77,17 @@
       MainLayout
     },
 
-    created: function () {
-
+    methods: {
+      saveVideos: function() {
+        this.hideDownload = 'hide-download'
+        localStorage.setItem('downloadingVideos', true)
+        var testEl = document.createElement( 'video' )
+        if ( testEl.canPlayType ) {
+          navigator.serviceWorker.controller.postMessage({ 'command': 'fetchVideos' + ( testEl.canPlayType( 'video/webm; codecs="vp8, vorbis"' ) ? 'Webm' : '' ) })
+        } else {
+          navigator.serviceWorker.controller.postMessage({ 'command': 'fetchVideos' })
+        }
+      }
     }
 
   }

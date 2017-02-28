@@ -1,18 +1,108 @@
-<!DOCTYPE html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="format-detection" content="telephone=no"><title>Home | Concept Tag</title><link rel="stylesheet" href="/static/css/style.css"><link rel="apple-touch-icon" sizes="180x180" href="/static/icons/apple-touch-icon.png"><link rel="icon" type="image/png" href="/static/icons/favicon-32x32.png" sizes="32x32"><link rel="icon" type="image/png" href="/static/icons/favicon-16x16.png" sizes="16x16"><link rel="manifest" href="/static/icons/manifest.json"><link rel="mask-icon" href="/static/icons/safari-pinned-tab.svg" color="#e11a27"><link rel="shortcut icon" href="/static/icons/favicon.ico"><meta name="apple-mobile-web-app-title" content="conceptag"><meta name="application-name" content="conceptag"><meta name="msapplication-config" content="/static/icons/browserconfig.xml"><meta name="theme-color" content="#000000"></head><body><div id="app"><header role="banner"><a href="/" class="router-link-active"><img src="/static/images/logo.png"></a></header> <!----> <div class="view"><div class="home-container"><div class="home"><h1>Welcome</h1> <p>Quick video tutorials for getting the most out of The Concept Tag.</p> <img src="/static/images/tags.jpg" alt="A group of Concept Tags"> <a href="/videos" class="button button--red">Video Tutorials</a> <a class="button">Contact Agon</a></div> <!----></div></div> <!----> <footer role="contentinfo"><a class="button">Contact Agon</a> <p>The Concept Tag is distributed by Agon Systems</p> <small>© 2017 Agon Systems Ltd</small></footer></div><script async="" src="https://www.google-analytics.com/analytics.js"></script><script async="">if (navigator.serviceWorker) {
+<!DOCTYPE html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="format-detection" content="telephone=no"><title>Home | Concept Tag</title><link rel="stylesheet" href="/static/css/style.css"><link rel="apple-touch-icon" sizes="180x180" href="/static/icons/apple-touch-icon.png"><link rel="icon" type="image/png" href="/static/icons/favicon-32x32.png" sizes="32x32"><link rel="icon" type="image/png" href="/static/icons/favicon-16x16.png" sizes="16x16"><link rel="manifest" href="/static/icons/manifest.json"><link rel="mask-icon" href="/static/icons/safari-pinned-tab.svg" color="#e11a27"><link rel="shortcut icon" href="/static/icons/favicon.ico"><meta name="apple-mobile-web-app-title" content="conceptag"><meta name="application-name" content="conceptag"><meta name="msapplication-config" content="/static/icons/browserconfig.xml"><meta name="theme-color" content="#000000"></head><body><div id="app"><header role="banner"><a href="/" class="router-link-active"><img src="/static/images/logo.png"></a></header> <!----> <div class="view"><div class="home-container"><div class="home"><h1>Welcome</h1> <p>Quick video tutorials for getting the most out of The Concept Tag.</p> <img src="/static/images/tags.jpg" alt="A group of Concept Tags"> <a href="/videos" class="button button--red">Video Tutorials</a> <a class="button">Contact Agon</a></div> <!----></div></div> <!----> <footer role="contentinfo"><a class="button">Contact Agon</a> <p>The Concept Tag is distributed by Agon Systems</p> <small>© 2017 Agon Systems Ltd</small></footer></div><script async="" src="https://www.google-analytics.com/analytics.js"></script><script async="">function checkForVideos() {
+        if (navigator.serviceWorker.controller) {
+          navigator.serviceWorker.controller.postMessage({ 'command': 'checkForVideos' })
+        }
+      }
+
+      function fetchVideos() {
+        if (navigator.serviceWorker.controller) {
+          var testEl = document.createElement( 'video' )
+          if ( testEl.canPlayType ) {
+            navigator.serviceWorker.controller.postMessage({ 'command': 'fetchVideos' + ( testEl.canPlayType( 'video/webm; codecs="vp8, vorbis"' ) ? 'Webm' : '' ) })
+          } else {
+            navigator.serviceWorker.controller.postMessage({ 'command': 'fetchVideos' })
+          }
+        }
+      }
+
+      function askForDownload() {
+
+        const hideDownload = localStorage.getItem('hideDownload')
+        if ( hideDownload ) {
+          return
+        }
+
+        const downloadMessage = document.createElement('button')
+        downloadMessage.setAttribute('type', 'button')
+        downloadMessage.setAttribute('class', 'download-message')
+        downloadMessage.innerHTML = '<small>Save Videos Offline</small> <img src="/static/images/close.png" class="close-download"> <img src="/static/images/download.png" class="start-download">'
+
+        document.body.appendChild(downloadMessage)
+
+        const closeDownload = document.querySelector('.close-download')
+        const startDownload = document.querySelector('.start-download')
+        const hideDownloadButton = function(node) {
+          localStorage.setItem('hideDownload', true)
+          node.classList.add('fade-out')
+        }
+
+        startDownload.addEventListener('click', function() {
+          hideDownloadButton(this.parentNode)
+          fetchVideos()
+          localStorage.setItem('downloadTriggered', true)
+        })
+
+        closeDownload.addEventListener('click', function() {
+          hideDownloadButton(this.parentNode)
+        })
+      }
+
+      function triggerUpdate() {
+        const updateMessage = document.createElement('button')
+        updateMessage.setAttribute('type', 'button')
+        updateMessage.setAttribute('class', 'update-message')
+        updateMessage.innerHTML = '<small>Update available</small> <img src="/static/images/refresh.png">'
+        updateMessage.addEventListener('click', function() {
+          window.location.reload()
+        })
+        document.body.appendChild(updateMessage)
+      }
+
+      if (navigator.serviceWorker) {
+        var runUpdate = true
         navigator.serviceWorker.register('/service-worker.js', {
           scope: '/'
+        }).then(function(reg) {
+
+          if (navigator.serviceWorker.controller) {
+            return
+          }
+
+          if (reg.waiting) {
+            triggerUpdate()
+            return
+          }
+
+          if (reg.installing) {
+            runUpdate = false
+          }
+
+          checkForVideos()
+
         })
 
         navigator.serviceWorker.addEventListener('message', function(event) {
-          if ( event.data === 'updated' ) {
-            var updateMessage = document.createElement('button')
-            updateMessage.setAttribute('type', 'button')
-            updateMessage.setAttribute('class', 'update-message')
-            updateMessage.innerHTML = '<small>Update available</small> <img src="/static/images/refresh.png">'
-            updateMessage.addEventListener('click', function() {
-              window.location.reload()
-            })
-            document.body.appendChild(updateMessage)
+          if ( event.data.indexOf('missing-') === 0 ) {
+            const remaining = parseInt( event.data.replace('missing-', '') )
+            if ( remaining > 0 ) {
+              const downloadTriggered = localStorage.getItem('downloadTriggered')
+              if ( downloadTriggered ) {
+                fetchVideos()
+              } else {
+                askForDownload()
+              }
+            } else {
+              localStorage.setItem('downloadedVideos', true)
+            }
           }
         })
-      }</script><script type="text/javascript" src="/static/app.e3fa04c76c72e10d0e6c.js"></script></body></html>
+
+        navigator.serviceWorker.oncontrollerchange = function() {
+          if ( runUpdate ) {
+            triggerUpdate()
+          }
+        }
+
+        window.addEventListener('load', checkForVideos)
+
+      }</script><script type="text/javascript" src="/static/app.8dccff1fefe071f90538.js"></script></body></html>

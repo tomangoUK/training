@@ -10,8 +10,32 @@ module.exports = [
     navTitle: true
   },
   {
-    path: '/videos/installation-of-releaser',
-    title: 'Installation of releaser',
+    path: '/videos/installing-the-releaser',
+    title: 'Installing the releaser',
+    template: 'Video',
+    navTitle: false
+  },
+  {
+    path: '/videos/replacing-the-releaser',
+    title: 'Replacing the releaser',
+    template: 'Video',
+    navTitle: false
+  },
+  {
+    path: '/videos/troubleshooting',
+    title: 'Troubleshooting',
+    template: 'Video',
+    navTitle: false
+  },
+  {
+    path: '/videos/releasing-a-tag',
+    title: 'Releasing a tag',
+    template: 'Video',
+    navTitle: false
+  },
+  {
+    path: '/videos/where-to-place-a-tag',
+    title: 'Where to place a tag',
     template: 'Video',
     navTitle: false
   },

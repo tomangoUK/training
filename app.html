@@ -21,23 +21,114 @@
     <div id="app"></div>
     <!-- built files will be auto injected -->
     <script async>
+
+      function checkForVideos() {
+        if (navigator.serviceWorker.controller) {
+          navigator.serviceWorker.controller.postMessage({ 'command': 'checkForVideos' })
+        }
+      }
+
+      function fetchVideos() {
+        if (navigator.serviceWorker.controller) {
+          var testEl = document.createElement( 'video' )
+          if ( testEl.canPlayType ) {
+            navigator.serviceWorker.controller.postMessage({ 'command': 'fetchVideos' + ( testEl.canPlayType( 'video/webm; codecs="vp8, vorbis"' ) ? 'Webm' : '' ) })
+          } else {
+            navigator.serviceWorker.controller.postMessage({ 'command': 'fetchVideos' })
+          }
+        }
+      }
+
+      function askForDownload() {
+
+        const hideDownload = localStorage.getItem('hideDownload')
+        if ( hideDownload ) {
+          return
+        }
+
+        const downloadMessage = document.createElement('button')
+        downloadMessage.setAttribute('type', 'button')
+        downloadMessage.setAttribute('class', 'download-message')
+        downloadMessage.innerHTML = '<small>Save Videos Offline</small> <img src="/static/images/close.png" class="close-download"> <img src="/static/images/download.png" class="start-download">'
+
+        document.body.appendChild(downloadMessage)
+
+        const closeDownload = document.querySelector('.close-download')
+        const startDownload = document.querySelector('.start-download')
+        const hideDownloadButton = function(node) {
+          localStorage.setItem('hideDownload', true)
+          node.classList.add('fade-out')
+        }
+
+        startDownload.addEventListener('click', function() {
+          hideDownloadButton(this.parentNode)
+          fetchVideos()
+          localStorage.setItem('downloadTriggered', true)
+        })
+
+        closeDownload.addEventListener('click', function() {
+          hideDownloadButton(this.parentNode)
+        })
+      }
+
+      function triggerUpdate() {
+        const updateMessage = document.createElement('button')
+        updateMessage.setAttribute('type', 'button')
+        updateMessage.setAttribute('class', 'update-message')
+        updateMessage.innerHTML = '<small>Update available</small> <img src="/static/images/refresh.png">'
+        updateMessage.addEventListener('click', function() {
+          window.location.reload()
+        })
+        document.body.appendChild(updateMessage)
+      }
+
       if (navigator.serviceWorker) {
+        var runUpdate = true
         navigator.serviceWorker.register('/service-worker.js', {
           scope: '/'
+        }).then(function(reg) {
+
+          if (navigator.serviceWorker.controller) {
+            return
+          }
+
+          if (reg.waiting) {
+            triggerUpdate()
+            return
+          }
+
+          if (reg.installing) {
+            runUpdate = false
+          }
+
+          checkForVideos()
+
         })
 
         navigator.serviceWorker.addEventListener('message', function(event) {
-          if ( event.data === 'updated' ) {
-            var updateMessage = document.createElement('button')
-            updateMessage.setAttribute('type', 'button')
-            updateMessage.setAttribute('class', 'update-message')
-            updateMessage.innerHTML = '<small>Update available</small> <img src="/static/images/refresh.png">'
-            updateMessage.addEventListener('click', function() {
-              window.location.reload()
-            })
-            document.body.appendChild(updateMessage)
+          if ( event.data.indexOf('missing-') === 0 ) {
+            const remaining = parseInt( event.data.replace('missing-', '') )
+            if ( remaining > 0 ) {
+              const downloadTriggered = localStorage.getItem('downloadTriggered')
+              if ( downloadTriggered ) {
+                fetchVideos()
+              } else {
+                askForDownload()
+              }
+            } else {
+              localStorage.setItem('downloadedVideos', true)
+            }
           }
         })
+
+        navigator.serviceWorker.oncontrollerchange = function() {
+          if ( runUpdate ) {
+            triggerUpdate()
+          }
+        }
+
+        window.addEventListener('load', checkForVideos)
+
       }
     </script>
   </body>

@@ -63,6 +63,19 @@ body {
 		border-color: #4A4A4A;
 		color: #FFFFFF;
 	}
+
+	&--download {
+		border-color: #999;
+		color: #999;
+		padding: 10px;
+		width: 190px;
+
+		&.hide-download {
+			transition: 300ms all 600ms;
+			opacity: 0;
+			visibility: hidden;
+		}
+	}
 }
 
 
@@ -195,6 +208,7 @@ body {
 }
 
 
+.download-message,
 .update-message {
 	position: fixed;
 	bottom: 0;
@@ -224,6 +238,14 @@ body {
 		float: right;
 		width: 25px;
 		height: 25px;
+
+		& + img {
+			margin-right: 10px;
+		}
+	}
+
+	&.fade-out {
+		animation: 1s fadeOut forwards;
 	}
 
 	@include mq(35em) {
@@ -243,4 +265,21 @@ body {
 	100% {
 		opacity: 1;
 	}
+}
+
+@keyframes fadeOut {
+	0% {
+		opacity: 1;
+		visibility: visible;
+	}
+
+	100% {
+		opacity: 0;
+		visibility: hidden;
+	}
+}
+
+.download-message + .update-message,
+.update-message + .download-message {
+	opacity: 0;
 }
