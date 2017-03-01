@@ -3,7 +3,7 @@
 
 importScripts('/static/js/async-waituntil.js')
 
-const cacheNameStatic = 'training-static-v2'
+const cacheNameStatic = 'training-static-v3'
 const cacheNameVideo = 'training-videos-v1'
 const cacheNameExternal = 'training-external-v1'
 const videosMp4 = [

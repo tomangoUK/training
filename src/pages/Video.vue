@@ -4,7 +4,10 @@
       <div class="video">
         
         <div v-if="content.video" class="video-container" id="video-container">
-          <video id="video" v-on:click="toggleVideoPlayback" data-object-fit="contain" :poster="content.poster" :class="loading" :src="content.video"></video>
+          <video id="video" v-on:click="toggleVideoPlayback" data-object-fit="contain" :poster="content.poster" :class="loading">
+            <source :src="content.video + '.webm'" type="video/webm">
+            <source :src="content.video + '.mp4'" type="video/mp4">
+          </video>
           <nav class="video-controls">
             <div>
               <button v-on:click="toggleVideoPlayback" type="button" id="play-button">Play</button>
@@ -36,16 +39,10 @@
     window.Promise = Promise
   }
 
-  var format = 'mp4'
-  var testEl = document.createElement( 'video' )
-  if ( testEl.canPlayType ) {
-    format = testEl.canPlayType( 'video/webm; codecs="vp8, vorbis"' ) ? 'webm' : 'mp4'
-  }
-
   import MainLayout from '../components/MainLayout.vue'
   const content = {
     'installing-the-releaser': {
-      'video' : '/static/videos/installing-the-releaser.' + format,
+      'video' : '/static/videos/installing-the-releaser',
       'poster': '/static/images/installation-of-releaser-poster.jpg',
       'length' : 58,
       'content': [
@@ -53,7 +50,7 @@
       ]
     },
     'releasing-a-tag': {
-      'video' : '/static/videos/releasing-a-tag.' + format,
+      'video' : '/static/videos/releasing-a-tag',
       'poster': '/static/images/releasing-a-tag-poster.jpg',
       'length' : 40,
       'content': [
@@ -61,7 +58,7 @@
       ]
     },
     'replacing-the-releaser': {
-      'video' : '/static/videos/replacing-the-releaser.' + format,
+      'video' : '/static/videos/replacing-the-releaser',
       'poster': '/static/images/replacing-a-releaser-poster.jpg',
       'length' : 65,
       'content': [
@@ -69,7 +66,7 @@
       ]
     },
     'troubleshooting': {
-      'video' : '/static/videos/troubleshooting.' + format,
+      'video' : '/static/videos/troubleshooting',
       'poster': '/static/images/troubleshooting-poster.jpg',
       'length' : 48,
       'content': [
@@ -77,7 +74,7 @@
       ]
     },
     'where-to-place-a-tag': {
-      'video' : '/static/videos/where-to-place-a-tag.' + format,
+      'video' : '/static/videos/where-to-place-a-tag',
       'poster': '/static/images/where-to-place-a-tag-poster.jpg',
       'length' : 61,
       'content': [
