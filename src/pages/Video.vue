@@ -46,7 +46,7 @@
       'poster': '/static/images/installation-of-releaser-poster.jpg',
       'length' : 58,
       'content': [
-        'Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore.'
+        'Step-by-step instructions and details of the tools required for installing a new Concept Tag releaser in a store’s till area.'
       ]
     },
     'releasing-a-tag': {
@@ -54,7 +54,7 @@
       'poster': '/static/images/releasing-a-tag-poster.jpg',
       'length' : 40,
       'content': [
-        'Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore.'
+        'The Concept Tag has a locking mechanism that’s removed in a totally unique way. Make sure you’re using the releaser correctly to avoid problems.'
       ]
     },
     'replacing-the-releaser': {
@@ -62,7 +62,7 @@
       'poster': '/static/images/replacing-a-releaser-poster.jpg',
       'length' : 65,
       'content': [
-        'Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore.'
+        'Step-by-step instructions on how to remove a damaged releaser, install the replacement, and return the broken one for repair.'
       ]
     },
     'troubleshooting': {
@@ -70,7 +70,7 @@
       'poster': '/static/images/troubleshooting-poster.jpg',
       'length' : 48,
       'content': [
-        'Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore.'
+        'Some of the more common problems you might encounter using the Concept Tag and its releaser, and how to solve them.'
       ]
     },
     'where-to-place-a-tag': {
@@ -78,7 +78,7 @@
       'poster': '/static/images/where-to-place-a-tag-poster.jpg',
       'length' : 61,
       'content': [
-        'Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore.'
+        'Make sure the Concept Tag’s completely effective by fitting it correctly and in the recommended positions for t-shirts, tops, blouses, jeans and trousers.'
       ]
     }
   }

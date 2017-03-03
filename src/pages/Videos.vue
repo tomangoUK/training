@@ -60,7 +60,7 @@
         navTitle: 'Video tutorials',
         back: '/',
         videos: videos,
-        showDownload: navigator && navigator.serviceWorker && localStorage && ! localStorage.getItem('downloadedVideos') && ! localStorage.getItem('downloadingVideos'),
+        showDownload: navigator && navigator.serviceWorker && navigator.serviceWorker.controller && localStorage && ! localStorage.getItem('downloadedVideos') && ! localStorage.getItem('downloadingVideos'),
         hideDownload: ''
       }
     },
@@ -79,13 +79,15 @@
 
     methods: {
       saveVideos: function() {
-        this.hideDownload = 'hide-download'
-        localStorage.setItem('downloadingVideos', true)
-        var testEl = document.createElement( 'video' )
-        if ( testEl.canPlayType ) {
-          navigator.serviceWorker.controller.postMessage({ 'command': 'fetchVideos' + ( testEl.canPlayType( 'video/webm; codecs="vp8, vorbis"' ) ? 'Webm' : '' ) })
-        } else {
-          navigator.serviceWorker.controller.postMessage({ 'command': 'fetchVideos' })
+        if ( navigator.serviceWorker.controller ) {
+          this.hideDownload = 'hide-download'
+          localStorage.setItem('downloadingVideos', true)
+          var testEl = document.createElement( 'video' )
+          if ( testEl.canPlayType ) {
+            navigator.serviceWorker.controller.postMessage({ 'command': 'fetchVideos' + ( testEl.canPlayType( 'video/webm; codecs="vp8, vorbis"' ) ? 'Webm' : '' ) })
+          } else {
+            navigator.serviceWorker.controller.postMessage({ 'command': 'fetchVideos' })
+          }
         }
       }
     }
