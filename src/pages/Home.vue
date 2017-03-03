@@ -4,7 +4,7 @@
       <main-layout class="home">
 
         <h1>Welcome</h1>
-        <p>Quick video tutorials for getting the most out of The Concept Tag.</p>
+        <p>Short instructional videos demonstrating how to get the most out of the Concept Tag.</p>
         <img src="/static/images/tags.jpg" alt="A group of Concept Tags">
 
         <router-link to="/videos" class="button button--red">Video Tutorials</router-link>
