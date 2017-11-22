@@ -1,0 +1,122 @@
+.videos {
+	padding: 0 6px;
+	max-width: 950px;
+	margin: 0 auto;
+
+	&:after {
+		content: '';
+		display: table;
+		clear: both;
+	}
+
+	h4 {
+		padding: 12px 7px 13px;
+	}
+
+	a {
+		display: block;
+
+		&:hover {
+			figure:before {
+				opacity: 0.7;
+			}
+		}
+	}
+
+	figure {
+		position: relative;
+
+		&:before {
+			background: linear-gradient(rgba(#222, 0), #000);
+			position: absolute;
+			content: '';
+			height: 50%;
+			bottom: 0;
+			width: 100%;
+			right: 0;
+			transition: 300ms opacity;
+		}
+
+		&:after {
+			background: url('data:image/svg+xml;charset=utf-8;base64,PHN2ZyB3aWR0aD0iMzQiIGhlaWdodD0iMzQiIHZpZXdCb3g9IjAgMCAzNCAzNCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZyBmaWxsPSIjRkZGIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPjxwYXRoIGQ9Ik0yMy44IDE2LjRMMTQuNDUgMTBjLS4zLS4yMi0xLjA3LS4yMi0xLjEzLjZ2MTIuOGMuMDguODIuODcuODQgMS4xNC42bDkuMzctNi40Yy4yNi0uMTUuNi0uNzUgMC0xLjJ6bS05LjA0IDUuNjRWMTEuOTZMMjIuMTIgMTdsLTcuMzYgNS4wNHoiLz48cGF0aCBkPSJNMTcgMEM3LjYzIDAgMCA3LjYzIDAgMTdjMCA5LjM3IDcuNjMgMTcgMTcgMTcgOS4zNyAwIDE3LTcuNjMgMTctMTcgMC05LjM3LTcuNjMtMTctMTctMTd6bTAgMzIuNTVDOC40MiAzMi41NSAxLjQ1IDI1LjU4IDEuNDUgMTcgMS40NSA4LjQyIDguNDIgMS40NSAxNyAxLjQ1YzguNTggMCAxNS41NSA2Ljk3IDE1LjU1IDE1LjU1IDAgOC41OC02Ljk3IDE1LjU1LTE1LjU1IDE1LjU1eiIvPjwvZz48L3N2Zz4=') center /cover no-repeat;
+			transform: translate3d(-50%, -50%, 0);
+			position: absolute;
+			content: '';
+			height: 18.95%;
+			width: 18.95%;
+			left: 50%;
+			top: 50%;
+		}
+	}
+
+	small {
+		position: absolute;
+		bottom: 11px;
+		right: 11px;
+		font: 400 9px $heading;
+		color: #FFF;
+		text-align: right;
+		z-index: 2;
+	}
+
+	img {
+		width: 100%;
+	}
+
+	article {
+		position: relative;
+		margin-left: 4px;
+		width: calc(50% - 2px);
+		float: left;
+
+		&:nth-child(2n+1) {
+			margin-left: 0;
+			clear: left;
+		}
+	}
+
+	@include mq(40em) {
+		h4 {
+			position: absolute;
+			bottom: 17px;
+			left: 19px;
+			color: #FFF;
+			z-index: 3;
+			padding: 0;
+			font-size: 18px;
+			margin: 0;
+		}
+
+		figure {
+			max-height: 375px;
+			overflow: hidden;
+
+			&:after {
+				width: 84px;
+				height: 84px;
+			}
+
+			img {
+				height: 100%;
+				width: 100%;
+				object-fit: cover;
+				font-family: 'object-fit: cover;';
+			}
+		}
+
+		article {
+			margin-bottom: 30px;
+			width: calc(50% - 30px);
+
+			&:nth-child(2n) {
+				margin-left: 30px;
+			}
+		}
+
+		small {
+			font-size: 12px;
+			bottom: 17px;
+			right: 19px;
+		}
+	}
+}

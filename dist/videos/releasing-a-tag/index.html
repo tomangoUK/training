@@ -22,10 +22,10 @@
           return
         }
 
-        const downloadMessage = document.createElement('button')
-        downloadMessage.setAttribute('type', 'button')
+        const downloadMessage = document.createElement('span')
+        downloadMessage.setAttribute('type', 'span')
         downloadMessage.setAttribute('class', 'download-message')
-        downloadMessage.innerHTML = '<small>Save Videos Offline</small> <img src="/static/images/close.png" class="close-download"> <img src="/static/images/download.png" class="start-download">'
+        downloadMessage.innerHTML = '<small>Save Videos Offline</small> <img style="cursor: pointer;" src="/static/images/close.png" class="close-download"> <img style="cursor: pointer;" src="/static/images/download.png" class="start-download">'
 
         document.body.appendChild(downloadMessage)
 
