@@ -24,6 +24,7 @@
         <div class="video__content">
           <h1>{{ this.$route.meta.title }}</h1>
           <p v-for="paragraph in content.content">{{ paragraph }}</p>
+          <a class="button button--left" download :href="content.video + '.mp4'">Download video</a>
         </div>
 
       </div>

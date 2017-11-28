@@ -64,6 +64,11 @@ body {
 		color: #FFFFFF;
 	}
 
+	&--left {
+		margin-right: 0;
+		margin-left: 0;
+	}
+
 	&--download {
 		border-color: #999;
 		color: #999;
