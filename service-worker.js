@@ -5,7 +5,7 @@ importScripts('/static/js/async-waituntil.js')
 importScripts('/static/js/ranged-response.js')
 
 const cacheNameStatic = 'training-static-v5'
-const cacheNameVideo = 'training-videos-v1'
+const cacheNameVideo = 'training-videos-v2'
 const cacheNameExternal = 'training-external-v1'
 const videosMp4 = [
   '/static/videos/installing-the-releaser.mp4',
