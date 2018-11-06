@@ -135,7 +135,7 @@ document.addEventListener('DOMContentLoaded', function () {
             <div class="contact__content">
               <h3>+44 (0)1323 738815</h3>
               <p><strong>United Kingdom</strong><br>
-              Unit G4 Chaucer Business Park,<br>
+              Units H8 &amp; H9 Chaucer Business Park,<br>
               Dittons Road, Polegate, East Sussex,<br>
               BN26 6JF</p>
 
