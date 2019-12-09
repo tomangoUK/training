@@ -43,7 +43,7 @@
   import MainLayout from '../components/MainLayout.vue'
   const content = {
     'installing-the-releaser': {
-      'video' : '/static/videos/installing-the-releaser',
+      'video' : '/static/videos/installing-the-releaser/',
       'poster': '/static/images/installation-of-releaser-poster.jpg',
       'length' : 58,
       'content': [
@@ -51,7 +51,7 @@
       ]
     },
     'releasing-a-tag': {
-      'video' : '/static/videos/releasing-a-tag',
+      'video' : '/static/videos/releasing-a-tag/',
       'poster': '/static/images/releasing-a-tag-poster.jpg',
       'length' : 40,
       'content': [
@@ -59,7 +59,7 @@
       ]
     },
     'replacing-the-releaser': {
-      'video' : '/static/videos/replacing-the-releaser',
+      'video' : '/static/videos/replacing-the-releaser/',
       'poster': '/static/images/replacing-a-releaser-poster.jpg',
       'length' : 65,
       'content': [
@@ -67,7 +67,7 @@
       ]
     },
     'troubleshooting': {
-      'video' : '/static/videos/troubleshooting',
+      'video' : '/static/videos/troubleshooting/',
       'poster': '/static/images/troubleshooting-poster.jpg',
       'length' : 48,
       'content': [
@@ -75,7 +75,7 @@
       ]
     },
     'where-to-place-a-tag': {
-      'video' : '/static/videos/where-to-place-a-tag',
+      'video' : '/static/videos/where-to-place-a-tag/',
       'poster': '/static/images/where-to-place-a-tag-poster.jpg',
       'length' : 61,
       'content': [
