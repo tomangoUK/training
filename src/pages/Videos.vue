@@ -22,31 +22,31 @@
   const videos = [
     {
       'title' : 'Where to place a tag',
-      'path' : '/videos/where-to-place-a-tag',
+      'path' : '/videos/where-to-place-a-tag/',
       'image' : '/static/images/where-to-place-a-tag.jpg',
       'time': '01:01'
     },
     {
       'title' : 'Releasing a tag',
-      'path' : '/videos/releasing-a-tag',
+      'path' : '/videos/releasing-a-tag/',
       'image' : '/static/images/releasing-a-tag.jpg',
       'time': '00:40'
     },
     {
       'title' : 'Installing the releaser',
-      'path' : '/videos/installing-the-releaser',
+      'path' : '/videos/installing-the-releaser/',
       'image' : '/static/images/installation-of-releaser.jpg',
       'time': '00:58'
     },
     {
       'title' : 'Troubleshooting',
-      'path' : '/videos/troubleshooting',
+      'path' : '/videos/troubleshooting/',
       'image' : '/static/images/troubleshooting.jpg',
       'time': '00:48'
     },
     {
       'title' : 'Replacing the releaser',
-      'path' : '/videos/replacing-the-releaser',
+      'path' : '/videos/replacing-the-releaser/',
       'image' : '/static/images/replacing-a-releaser.jpg',
       'time': '01:05'
     }
