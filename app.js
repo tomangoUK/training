@@ -41,8 +41,10 @@ dynamicRoutes.map(function(route) {
 app.get('*', function (req, res) {
   
   var view = checkViewExists('/not-found')
+  var path = req._parsedUrl.pathname.replace(/\/+$/, '') // Always match against no trailing slash
+  if ( path === '' ) path = '/' // Put homepage slash back
   staticRoutes.map(function(route) {
-    if ( route.path === req._parsedUrl.pathname ) {
+    if ( route.path === path ) {
       view = checkViewExists( route.path )
     }
   })
