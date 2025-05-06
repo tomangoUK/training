@@ -1,5 +1,5 @@
 const gulp = require( 'gulp' )
-const sass = require( 'gulp-sass' )(require('node-sass'))
+const sass = require( 'gulp-sass' )(require('sass'))
 const maps = require( 'gulp-sourcemaps')
 const notify = require( 'gulp-notify' )
 const http = require('http')
