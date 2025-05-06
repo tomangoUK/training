@@ -1,5 +1,5 @@
 var gulp = require( 'gulp' ),
-	sass = require( 'gulp-sass' ),
+	sass = require( 'gulp-sass' )(require('sass')),
 	maps = require( 'gulp-sourcemaps'),
 	notify = require( 'gulp-notify' ),
 	http = require('http'),
