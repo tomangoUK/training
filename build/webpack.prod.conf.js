@@ -40,7 +40,6 @@ module.exports = merge(baseConfig, {
         NODE_ENV: '"production"'
       }
     }),
-    new webpack.optimize.OccurenceOrderPlugin(),
 
     // generate dist app.html with correct asset hash for caching.
     // you can customize output by editing /app.html
