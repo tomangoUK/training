@@ -1,15 +1,15 @@
-var gulp = require( 'gulp' ),
-	sass = require( 'gulp-sass' )(require('node-sass')),
-	maps = require( 'gulp-sourcemaps'),
-	notify = require( 'gulp-notify' ),
-	http = require('http'),
-	postCSS = {
-		nano: require( 'cssnano' ),
-		core: require( 'gulp-postcss' ),
-		media: require( 'css-mqpacker' ),
-		prefix: require( 'autoprefixer' )
-	},
-	path = './static/';
+const gulp = require( 'gulp' )
+const sass = require( 'gulp-sass' )(require('node-sass'))
+const maps = require( 'gulp-sourcemaps')
+const notify = require( 'gulp-notify' )
+const http = require('http')
+const postCSS = {
+	nano: require( 'cssnano' ),
+	core: require( 'gulp-postcss' ),
+	media: require( 'css-mqpacker' ),
+	prefix: require( 'autoprefixer' )
+}
+const path = './static/'
 
 gulp.task( 'css',
 	function ( cb ) {
