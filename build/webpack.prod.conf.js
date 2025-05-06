@@ -63,3 +63,7 @@ module.exports = merge(baseConfig, {
     )
   ]
 })
+
+  // eslint: {
+  //   formatter: require('eslint-friendly-formatter')
+  // }
