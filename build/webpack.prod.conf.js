@@ -1,12 +1,12 @@
 var webpack = require('webpack')
-var merge = require('webpack-merge')
+const { merge } = require('webpack-merge')
 var baseConfig = require('./webpack.base.conf')
 var HtmlWebpackPlugin = require('html-webpack-plugin')
 var Path = require('path')
 var PrerenderSpaPlugin = require('prerender-spa-plugin')
 var pageRoutes = require('../src/routes')
 var routePaths = []
-const TerserPlugin = require("terser-webpack-plugin")
+const TerserPlugin = require('terser-webpack-plugin')
 
 pageRoutes.map(function(el) {
   routePaths.push(el.altPath || el.path)
