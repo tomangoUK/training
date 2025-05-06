@@ -6,6 +6,7 @@ var Path = require('path')
 var PrerenderSpaPlugin = require('prerender-spa-plugin')
 var pageRoutes = require('../src/routes')
 var routePaths = []
+const TerserPlugin = require("terser-webpack-plugin")
 
 pageRoutes.map(function(el) {
   routePaths.push(el.altPath || el.path)
@@ -24,16 +25,19 @@ module.exports = merge(baseConfig, {
     chunkFilename: '[id].[chunkhash].js',
     publicPath: '/static/'
   },
+  optimization: {
+    minimize: true,
+    minizer: [
+      new TerserPlugin({
+        test: /\.js(\?.*)?$/i
+      })
+    ]
+  },
   plugins: [
     // http://vuejs.github.io/vue-loader/workflow/production.html
     new webpack.DefinePlugin({
       'process.env': {
         NODE_ENV: '"production"'
-      }
-    }),
-    new webpack.optimize.TerserPlugin({
-      compress: {
-        warnings: false
       }
     }),
     new webpack.optimize.OccurenceOrderPlugin(),
