@@ -6,7 +6,6 @@ var Path = require('path')
 var PrerenderSpaPlugin = require('prerender-spa-plugin')
 var pageRoutes = require('../src/routes')
 var routePaths = []
-const TerserPlugin = require('terser-webpack-plugin')
 
 pageRoutes.map(function(el) {
   routePaths.push(el.altPath || el.path)
@@ -14,24 +13,17 @@ pageRoutes.map(function(el) {
 
 // whether to generate source map for production files.
 // disabling this can speed up the build.
-var SOURCE_MAP = true
+// var SOURCE_MAP = true
 
 module.exports = merge(baseConfig, {
-  devtool: SOURCE_MAP ? '#source-map' : false,
+  mode: 'production',
+  devtool: 'source-map',
   output: {
     // naming output files with hashes for better caching.
     // dist/app.html will be auto-generated with correct URLs.
     filename: '[name].[chunkhash].js',
     chunkFilename: '[id].[chunkhash].js',
     publicPath: '/static/'
-  },
-  optimization: {
-    minimize: true,
-    minizer: [
-      new TerserPlugin({
-        test: /\.js(\?.*)?$/i
-      })
-    ]
   },
   plugins: [
     // http://vuejs.github.io/vue-loader/workflow/production.html
@@ -55,15 +47,12 @@ module.exports = merge(baseConfig, {
         // more options:
         // https://github.com/kangax/html-minifier#options-quick-reference
       }
-    }),
+    })
+    // ,
 
-    new PrerenderSpaPlugin(
-      Path.join(__dirname, '../dist'),
-      routePaths
-    )
+    // new PrerenderSpaPlugin({
+    //   staticDir: Path.join(__dirname, '../dist'),
+    //   routePaths
+    // })
   ]
 })
-
-  // eslint: {
-  //   formatter: require('eslint-friendly-formatter')
-  // }

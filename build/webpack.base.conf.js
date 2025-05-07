@@ -1,5 +1,12 @@
-var path = require('path')
-var projectRoot = path.resolve(__dirname, '../')
+const path = require('path')
+const projectRoot = path.resolve(__dirname, '../')
+const ESLintPlugin = require('eslint-webpack-plugin')
+const { VueLoaderPlugin } = require('vue-loader')
+
+const options = {
+  extensions: ['.vue', '.js'],
+  exclude: [`/node_modules/`],
+}
 
 module.exports = {
   entry: {
@@ -11,49 +18,36 @@ module.exports = {
     filename: '[name].js'
   },
   resolve: {
-    extensions: ['', '.js', '.vue'],
-    fallback: [path.join(__dirname, '../node_modules')],
     alias: {
       'src': path.resolve(__dirname, '../src'),
       'vue$': 'vue/dist/vue.common.js'
-    }
+    },
+    extensions: ['.js', '.vue'],
+    modules: [
+      path.join(__dirname, '../node_modules')
+    ]
   },
   resolveLoader: {
-    fallback: [path.join(__dirname, '../node_modules')]
+    modules: [
+      path.join(__dirname, '../node_modules')
+    ]
   },
   module: {
-    preLoaders: [
+    rules: [
       {
         test: /\.vue$/,
-        loader: 'eslint',
-        include: projectRoot,
-        exclude: /node_modules/
+        loader: 'vue-loader'
       },
       {
         test: /\.js$/,
-        loader: 'eslint',
+        loader: 'babel-loader',
         include: projectRoot,
-        exclude: /node_modules/
-      }
-    ],
-    loaders: [
-      {
-        test: /\.vue$/,
-        loader: 'vue'
-      },
-      {
-        test: /\.js$/,
-        loader: 'babel',
-        include: projectRoot,
-        exclude: /node_modules/
-      },
-      {
-        test: /\.json$/,
-        loader: 'json'
+        exclude: /node_modules/,
+        options: { presets: ['@babel/env'] }
       },
       {
         test: /\.html$/,
-        loader: 'vue-html'
+        loader: 'vue-html-loader'
       },
       {
         test: /\.md$/,
@@ -61,8 +55,8 @@ module.exports = {
       },
       {
         test: /\.(png|jpg|gif|svg|woff2?|eot|ttf)(\?.*)?$/,
-        loader: 'url',
-        query: {
+        loader: 'url-loader',
+        options: {
           limit: 10000,
           name: '[name].[ext]?[hash:7]'
         }
@@ -70,3 +64,9 @@ module.exports = {
     ]
   }
 }
+
+// ,
+// plugins: [new ESLintPlugin(options)]
+// eslint: {
+//   formatter: require('eslint-friendly-formatter')
+// }
